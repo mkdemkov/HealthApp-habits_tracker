@@ -9,7 +9,7 @@ def print_hi(name):
     print(f'Hi, {name}')  # Press ⌘F8 to toggle the breakpoint.
 #test Karpov
 
-def huy():
-    print("DICK")
+def van():
+    print("dark")
 
-print("HEHEHAHA")
+print("HEHE")
