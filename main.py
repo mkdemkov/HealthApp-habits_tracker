@@ -11,3 +11,5 @@ def print_hi(name):
 
 def huy():
     print("DICK")
+
+print("HEHEHAHA")
