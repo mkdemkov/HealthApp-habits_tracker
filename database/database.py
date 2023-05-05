@@ -17,3 +17,16 @@ def add_task_to_database(email: str, name: str, desc: str, deadline: datetime, p
     session.add(task)
     session.commit()
     session.close()
+
+
+# Функция для обноваление задачи по task_id
+def update_task(task_id: int, new_name: str, new_desc: str, new_deadline: datetime, new_priority: int):
+    load_dotenv()
+    engine = create_engine(os.getenv('path_to_database'))
+    session_maker = sessionmaker(bind=engine)
+    session = session_maker()
+
+    session.query(Tasks).filter(Tasks.id == task_id).update(
+        {'name': new_name, 'desc': new_desc, 'deadline': new_deadline, 'priority': new_priority})
+    session.commit()
+    session.close()

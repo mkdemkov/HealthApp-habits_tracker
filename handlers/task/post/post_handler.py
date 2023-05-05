@@ -1,6 +1,6 @@
 from datetime import datetime
 import json
-from database.database import add_task_to_database
+from database.database import add_task_to_database, update_task
 
 from flask import request
 
@@ -55,4 +55,51 @@ def register_new_task():
 
 
 def edit_task():
-    pass
+    data = request.get_json()  # получим тело запроса
+    task_id = data.get('id')
+    if task_id is None:
+        with open('static/json/errors.json') as file:
+            errors_data = json.load(file)
+            return errors_data['task_id']['id_is_empty']
+    try:
+        task_id = int(task_id)
+    except:
+        with open('static/json/errors.json') as file:
+            errors_data = json.load(file)
+            return errors_data['task_id']['id_wrong_format']
+
+    new_name = data.get('new_name')  # получим название задачи и обработаем его
+    if new_name is None:
+        with open('static/json/errors.json') as file:
+            errors_data = json.load(file)
+            return errors_data['name']['name_is_empty']
+
+    new_desc = str(data.get('new_desc'))  # получим описание
+    if new_desc is None:
+        new_desc = ""
+
+    new_deadline = data.get('new_deadline')
+    if new_deadline is None:
+        with open('static/json/errors.json') as file:
+            errors_data = json.load(file)
+            return errors_data['deadline']['deadline_is_empty']
+    try:
+        new_deadline = datetime.fromisoformat(str(new_deadline))
+    # возможный эксепшн, если дедлайн задан в неправильном формате
+    except:
+        with open('static/json/errors.json') as file:
+            errors_data = json.load(file)
+            return errors_data['deadline']['deadline_wrong_format']
+
+    new_priority = data.get('new_priority')  # получим приоритет задачи
+    if new_priority is None:
+        new_priority = 1
+    else:
+        new_priority = int(new_priority)
+
+    update_task(task_id, new_name, new_desc, new_deadline, new_priority)
+
+    return {
+        "code": 200,
+        "info": "Задача успешно обновлена!"
+    }
