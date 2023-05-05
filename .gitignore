@@ -1,2 +1,8 @@
 .idea/
 .env
+handlers/task/post/__pycache__/
+handlers/task/get/__pycache__/
+handlers/habit/get/__pycache__/
+handlers/habit/post/__pycache__/
+entities/__pycache__/
+database/__pycache__/
