@@ -58,18 +58,5 @@ def index():
     return 'Hello, World!'
 
 
-def test():
-    load_dotenv()
-    engine = create_engine(os.getenv('path_to_database'))
-    Session = sessionmaker(bind=engine)
-    session = Session()
-
-    task = Tasks(email='test', name='Misha', desc='Dick', deadline=datetime.datetime(2023, 12, 24), priority=3)
-    session.add(task)
-    session.commit()
-    session.close()
-
-
 if __name__ == '__main__':
-    test()
-    # app.run(debug=True)
+    app.run(debug=True)
