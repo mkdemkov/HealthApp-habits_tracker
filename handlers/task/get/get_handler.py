@@ -1,8 +1,5 @@
 from flask import request
-import requests
 from sqlalchemy import create_engine, Column, Integer, String
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
 from dotenv import load_dotenv
 from entities.tasks import Tasks
 from sqlalchemy.orm import sessionmaker
