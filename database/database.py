@@ -65,3 +65,12 @@ def update_habit(habit_id: int, new_name: str, new_desc: str, new_for_time: int)
     session.close()
 
     return row
+def tasks_from_db(email:str):
+    load_dotenv()
+    engine = create_engine(os.getenv('path_to_database'))
+    Ssesion = sessionmaker(bind=engine)
+    session = Ssesion()
+    tasks = session.query(Tasks).filter_by(email=email).all()
+    session.close()
+    return tasks
+def remove_task_from_db(id):
