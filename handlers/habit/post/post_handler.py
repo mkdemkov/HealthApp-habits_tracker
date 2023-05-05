@@ -61,17 +61,17 @@ def edit_habit():
             errors_data = json.load(file)
             return errors_data['habit_id']['id_wrong_format']
 
-    new_name = data.get('new_name')  # получим название задачи и обработаем его
+    new_name = data.get('name')  # получим название задачи и обработаем его
     if new_name is None:
         with open('static/json/errors.json') as file:
             errors_data = json.load(file)
             return errors_data['name']['name_is_empty']
 
-    new_desc = str(data.get('new_desc'))  # получим описание
+    new_desc = str(data.get('desc'))  # получим описание
     if new_desc is None:
         new_desc = ""
 
-    new_for_time = data.get('new_for_time')
+    new_for_time = data.get('for_time')
     if new_for_time is None:
         with open('static/json/errors.json') as file:
             errors_data = json.load(file)
