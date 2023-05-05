@@ -26,7 +26,7 @@ def post_task_edit():
     return edit_task()
 
 
-@app.route('/task/list', methods=['GET'])
+@app.route('/task/list')
 def get_task_list():
     return get_all_tasks()
 
