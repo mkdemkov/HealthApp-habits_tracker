@@ -5,6 +5,7 @@ from entities.tasks import Tasks
 from entities.habits import Habits
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from sqlmodel import Session
 
 
 # Функция для добавления задача в базу данных
@@ -65,7 +66,9 @@ def update_habit(habit_id: int, new_name: str, new_desc: str, new_for_time: int)
     session.close()
 
     return row
-def tasks_from_db(email:str):
+
+
+def tasks_from_db(email: str):
     load_dotenv()
     engine = create_engine(os.getenv('path_to_database'))
     Ssesion = sessionmaker(bind=engine)
@@ -73,4 +76,22 @@ def tasks_from_db(email:str):
     tasks = session.query(Tasks).filter_by(email=email).all()
     session.close()
     return tasks
-def remove_task_from_db(id):
+
+
+def remove_task_from_db(id: int):
+    load_dotenv()
+    engine = create_engine(os.getenv('path_to_database'))
+    with Session(engine) as session:
+        record_to_delete = session.query(Tasks).filter_by(id=id).one_or_none()
+        if record_to_delete is not None:
+            session.delete(record_to_delete)
+            session.commit()
+            return {
+                "code": 200,
+                "info": "Задача успешно удалена!"
+            }
+        else:
+            return {
+                "code": 400,
+                "info": "Нет задачи с заданным id"
+            }
