@@ -1,0 +1,33 @@
+{
+  "email": {
+    "email_not_given": {
+      "code": 400,
+      "name": "Ошибка email",
+      "description": "Email не был задан"
+    },
+    "email_incorrect_format": {
+      "code": 400,
+      "name": "Ошибка email",
+      "description": "Email задан некорректно. Убедитесь, что email задан в виде something@something"
+    }
+  },
+  "name": {
+    "name_is_empty": {
+      "code": 400,
+      "name": "Ошибка названия задачи/привычки",
+      "description": "Название не задано"
+    }
+  },
+  "deadline": {
+    "deadline_is_empty": {
+      "code": 400,
+      "name": "Ошибка в deadline",
+      "description": "Deadline не задан"
+    },
+    "deadline_wrong_format": {
+      "code": 400,
+      "name": "Ошибка в deadline",
+      "description": "Deadline задан в некорректном формате. Убедитесь, что deadline указан в форме даты ГОД-МЕСЯЦ-ДЕНЬ (2023-05-31)"
+    }
+  }
+}
