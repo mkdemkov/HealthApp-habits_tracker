@@ -6,9 +6,7 @@ from handlers.habit.post.post_handler import register_new_habit, edit_habit
 from handlers.habit.get.get_handler import remove_habit, get_all_habits
 from handlers.task.post.post_handler import register_new_task, edit_task
 from handlers.task.get.get_handler import remove_task, get_all_tasks
-from entities.tasks import Tasks
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
+
 
 app = Flask(__name__)
 

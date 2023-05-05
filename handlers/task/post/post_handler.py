@@ -97,9 +97,16 @@ def edit_task():
     else:
         new_priority = int(new_priority)
 
-    update_task(task_id, new_name, new_desc, new_deadline, new_priority)
+    res = update_task(task_id, new_name, new_desc, new_deadline, new_priority)
+
+    if res:
+
+        return {
+            "code": 200,
+            "info": "Задача успешно обновлена!"
+        }
 
     return {
-        "code": 200,
-        "info": "Задача успешно обновлена!"
+        "code" : 400,
+        "info" : "Задача с таким id не найдена"
     }
