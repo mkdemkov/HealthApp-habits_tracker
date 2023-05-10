@@ -9,6 +9,16 @@
       "code": 400,
       "name": "Ошибка email",
       "description": "Email задан некорректно. Убедитесь, что email задан в виде something@something"
+    },
+    "one_of_emails_not_given" : {
+      "code": 400,
+      "name": "Ошибка email",
+      "description": "Один из email не был задан. Убедитесь, что в запросе заданы два параметра - email и other_email"
+    },
+    "one_of_emails_incorrect_format" : {
+      "code": 400,
+      "name": "Ошибка email",
+      "description": "Один из email задан некорректно. Убедитесь, что оба email заданы в виде something@something"
     }
   },
   "name": {
