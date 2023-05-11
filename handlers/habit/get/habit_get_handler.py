@@ -24,7 +24,10 @@ def get_all_habits():
     habit_list = {}
     index = 1
     if len(habits) == 0:
-        return 'У вас нет привычек!'
+        return {
+            'code': 200,
+            'info': 'У вас нет привычек!'
+        }
     for habit in habits:
         habit_list[f'Привычка {index}'] = {
             'id': habit.id,

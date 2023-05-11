@@ -24,7 +24,10 @@ def get_all_tasks():
     task_list = {}
     index = 1
     if len(tasks) == 0:
-        return 'У вас нет задач!'
+        return {
+            'code': 200,
+            'info': 'У вас нет задач!'
+        }
     for task in tasks:
         task_list[f'Задача {index}'] = {
             'id': task.id,
