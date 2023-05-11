@@ -135,7 +135,13 @@ def remove_task_from_db(id: int):
 def import_habits_from_db(email: str, other_email: str):
     habits_to_import = habits_from_db(other_email)
     if len(habits_to_import) == 0:
-        return 'У пользователя, привычки которого вы хотите импортировать, они отсутствуют!'
+        return {
+            'code': 200,
+            'info': 'У пользователя, привычки которого вы хотите импортировать, они отсутствуют!'
+        }
     for habit in habits_to_import:
         add_habit_to_database(email, habit.name, habit.desc, habit.for_time)
-    return 'Привычки успешно импортированы!'
+    return {
+        'code': 200,
+        'info': 'Привычки успешно импортированы!'
+    }
