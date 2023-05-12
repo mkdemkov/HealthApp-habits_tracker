@@ -22,10 +22,11 @@ from functions.task.add_new_task import new_task, create_task, Form
 from dotenv import load_dotenv
 import os
 
-bot = Bot(token="6019968937:AAFhXzdcIIcI2AaIVcqrP4h5m2XEciv86mM")
+load_dotenv()
+token=os.getenv('token')
+bot = Bot(token)
 storage = MemoryStorage()
 dp = Dispatcher(bot, storage=storage)
-load_dotenv()
 engine = create_engine(os.getenv("path_to_database"))  # замените на вашу строку подключения
 Session = sessionmaker(bind=engine)
 session = Session()
