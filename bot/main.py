@@ -4,7 +4,7 @@ from aiogram.dispatcher.filters.state import StatesGroup
 from aiogram.utils import executor
 from aiogram import Bot, types
 from aiogram.dispatcher import Dispatcher, FSMContext
-from aiogram.dispatcher.filters import Command
+from aiogram.dispatcher.filters import Command, Text
 from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from sqlalchemy.orm import sessionmaker
@@ -18,12 +18,11 @@ from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from functions.task.add_new_task import new_task, create_task, Form
-from functions.task.add_new_task import new_task, create_task, Form
 from dotenv import load_dotenv
 import os
 
 load_dotenv()
-token=os.getenv('token')
+token = os.getenv('token')
 bot = Bot(token)
 storage = MemoryStorage()
 dp = Dispatcher(bot, storage=storage)
@@ -36,8 +35,9 @@ session = Session()
 async def cmd_start(message: types.Message):
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
     buttons = [types.KeyboardButton("Добавить привычку")]
+
     keyboard.add(*buttons)
-    await message.answer("Привет! Что вы хотите сделать?", reply_markup=keyboard)
+    await message.answer("Вас приветствует HealthAppTrackerBot! Введите email для регистрации", reply_markup=keyboard)
 
 
 @dp.message_handler(lambda message: message.text.lower() == 'добавить привычку')
