@@ -19,7 +19,16 @@ def remove_task():
 
 # Обработчик получения списка всех задач
 def get_all_tasks():
+    with open('static/json/errors.json') as file:
+        errors_data = json.load(file)
+
     email = str(request.args.get('email'))
+    if email is None:
+        return errors_data['email']['email_not_given']
+
+    if '@' not in email:
+        return errors_data['email']['email_incorrect_format']
+
     tasks = tasks_from_db(email)
     task_list = {}
     index = 1
