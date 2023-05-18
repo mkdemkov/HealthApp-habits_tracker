@@ -1,10 +1,12 @@
 from flask import Flask
+from flask_cors import CORS
 from handlers.habit.post.habit_post_handler import register_new_habit, edit_habit
 from handlers.habit.get.habit_get_handler import remove_habit, get_all_habits, import_habits
 from handlers.task.post.task_post_handler import register_new_task, edit_task
 from handlers.task.get.task_get_handler import remove_task, get_all_tasks
 
 app = Flask(__name__)
+CORS(app)
 
 
 # Хэндлер POST запросов на /task/new
@@ -62,4 +64,4 @@ def get_habit_import():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=8080)
