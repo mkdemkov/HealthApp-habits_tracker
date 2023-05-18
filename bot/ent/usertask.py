@@ -1,3 +1,4 @@
+from aiogram import Bot, types
 from aiogram.dispatcher import Dispatcher, FSMContext
 from aiogram.dispatcher.filters import Command
 from aiogram.dispatcher.filters.state import State, StatesGroup
@@ -10,9 +11,10 @@ from typing import Optional
 from datetime import datetime
 
 
-class user_habit(SQLModel, table=True):
+class UserTask(SQLModel, table=True):
     id: Optional[int] = Field(primary_key=True)
     email: str
     name: str
     desc: str
-    for_time: datetime
+    deadline: datetime
+    priority: int

@@ -10,6 +10,6 @@ from typing import Optional
 from datetime import datetime
 
 
-class user_habit(SQLModel, table=True):
+class User(SQLModel, table=True):
     id: Optional[int] = Field(primary_key=True)
     email: str
