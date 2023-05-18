@@ -1,0 +1,82 @@
+body {
+    background-color: #4869D6;
+    margin-left: 50px;
+}
+
+#add-task-section {
+    margin-bottom: 20px;
+}
+
+#task-form {
+    display: none;
+    margin-top: 10px;
+}
+
+.form-group {
+    margin-bottom: 10px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="date"],
+input[type="number"] {
+    width: 100%;
+    max-width: 300px; /* Adjust the value as needed */
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.header-1 {
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    margin-right: 50px;
+}
+
+
+button {
+    padding: 10px 15px;
+    color: white;
+    background-color: #4869D6;
+    border: 2px solid black;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: white;
+    color: #4869D6;
+}
+
+.task-div {
+    display: inline-block;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #6E86D6;
+}
+
+.task-div h3 {
+    color: white;
+}
+
+.task-div button {
+    background-color: #4869D6;
+}
+
+.task-div button:hover {
+    background-color: white;
+    color: #4869D6;
+}
+
+.required-field {
+    border-color: red;
+}

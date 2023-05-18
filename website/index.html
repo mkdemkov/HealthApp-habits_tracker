@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>HealthApp</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="header-1"><h1>Задачи</h1>
+    <p>mkdemkov@edu.hse.ru</p>
+</div>
+<div id="task-container"></div>
+
+<div id="add-task-section">
+    <button id="add-task-btn">Добавить задачу</button>
+</div>
+
+<div>
+    <form id="task-form">
+        <div class="form-group">
+        </div>
+        <div class="form-group">
+            <label for="name-input">Название:</label>
+            <input type="text" id="name-input" required>
+        </div>
+        <div class="form-group">
+            <label for="desc-input">Описание:</label>
+            <input type="text" id="desc-input">
+        </div>
+        <div class="form-group">
+            <label for="deadline-input">Дедлайн:</label>
+            <input type="date" id="deadline-input" required>
+        </div>
+        <div class="form-group">
+            <label for="priority-input">Приоритет:</label>
+            <input type="number" id="priority-input">
+        </div>
+        <button type="button" id="submit-task-btn">Добавить</button>
+    </form>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
