@@ -20,6 +20,14 @@ def remove_habit():
 # Обработчик получения списка всех привычек
 def get_all_habits():
     email = str(request.args.get('email'))
+    with open('static/json/errors.json') as file:
+        errors_data = json.load(file)
+    if email is None:
+        return errors_data['email']['email_not_given']
+
+    if '@' not in email:
+        return errors_data['email']['email_incorrect_format']
+
     habits = habits_from_db(email)
     habit_list = {}
     index = 1
