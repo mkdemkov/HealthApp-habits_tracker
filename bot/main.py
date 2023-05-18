@@ -1,30 +1,14 @@
-from aiogram import Bot, types
-from aiogram.dispatcher import Dispatcher
-from aiogram.dispatcher.filters.state import StatesGroup
-from aiogram.utils import executor
-<<<<<<< HEAD
+import os
 
-bot = Bot(token="6186116061:AAFyCuPyn_d6x1gsvKM87g_w7R7NE-h4psM")
-dp = Dispatcher(bot)
-=======
 from aiogram import Bot, types
-from aiogram.dispatcher import Dispatcher, FSMContext
-from aiogram.dispatcher.filters import Command, Text
-from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
-from sqlalchemy.orm import sessionmaker
-from aiogram import Bot, types
 from aiogram.dispatcher import Dispatcher, FSMContext
-from aiogram.dispatcher.filters.state import StatesGroup
-from aiogram.utils import executor
-from aiogram.dispatcher.filters import Command
-from aiogram.dispatcher.filters.state import State
-from aiogram.contrib.fsm_storage.memory import MemoryStorage
+from dotenv import load_dotenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+
+from bot.functions.keyboards import reg_keyboard
 from functions.task.add_new_task import new_task, create_task, Form
-from dotenv import load_dotenv
-import os
 
 load_dotenv()
 token = os.getenv('token')
@@ -38,11 +22,7 @@ session = Session()
 
 @dp.message_handler(commands='start')
 async def cmd_start(message: types.Message):
-    keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    buttons = [types.KeyboardButton("Добавить привычку")]
-
-    keyboard.add(*buttons)
-    await message.answer("Вас приветствует HealthAppTrackerBot! Введите email для регистрации", reply_markup=keyboard)
+    await message.answer("Вас приветствует HealthAppTrackerBot! Введите email для регистрации", reply_markup=reg_keyboard.keyboard)
 
 
 @dp.message_handler(lambda message: message.text.lower() == 'добавить привычку')
@@ -53,7 +33,6 @@ def add_new_task(message: types.Message):
 @dp.message_handler(state=Form.habit)
 def process_task(message: types.Message, state: FSMContext):
     return create_task(message, state)
->>>>>>> 1432d11760d8c8cb391642cdd7e17970eb7f8ea9
 
 
 if __name__ == '__main__':
