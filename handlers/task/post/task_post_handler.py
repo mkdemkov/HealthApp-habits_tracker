@@ -36,14 +36,19 @@ def register_new_task():
     if priority is None:
         priority = 1
     else:
-        priority = int(priority)
+        try:
+            priority = int(priority)
+        except:
+            return errors_data['priority']['priority_wrong_format']
+        if 1 <= priority <= 5:
+            add_task_to_database(email, name, desc, deadline, priority)  # запишем новую задачу в базу данных
 
-    add_task_to_database(email, name, desc, deadline, priority)  # запишем новую задачу в базу данных
-
-    return {
-        "code": 200,
-        "info": "Задача успешно добавлена!"
-    }
+            return {
+                "code": 200,
+                "info": "Задача успешно добавлена!"
+            }
+        else:
+            return errors_data['priority']['priority_bad_diapason']
 
 
 # Обработчик изменения задачи
@@ -80,17 +85,20 @@ def edit_task():
     if new_priority is None:
         new_priority = 1
     else:
-        new_priority = int(new_priority)
+        try:
+            new_priority = int(new_priority)
+        except:
+            return errors_data['priority']['priority_wrong_format']
+        if 1 <= new_priority <= 5:
 
-    res = update_task(task_id, new_name, new_desc, new_deadline, new_priority)
-
-    if res:
-        return {
-            "code": 200,
-            "info": "Задача успешно обновлена!"
-        }
-
-    return {
-        "code": 400,
-        "info": "Задача с таким id не найдена"
-    }
+            res = update_task(task_id, new_name, new_desc, new_deadline, new_priority)
+            if res:
+                return {
+                    "code": 200,
+                    "info": "Задача успешно обновлена!"
+                }
+            return {
+                "code": 400,
+                "info": "Задача с таким id не найдена"
+            }
+        return errors_data['priority']['priority_bad_diapason']

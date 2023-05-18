@@ -8,7 +8,7 @@ from aiogram.dispatcher.filters import Command, Text
 from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from flask import session
-from bot.ent.user_task import user_task
+from bot.ent.usertask import UserTask
 from dotenv import load_dotenv
 import os
 from sqlalchemy import create_engine
@@ -17,8 +17,6 @@ from sqlalchemy.orm import sessionmaker
 
 class Form(StatesGroup):
     habit = State()  # состояние для ожидания ввода привычки
-    description = State()  # состояние для ожидания ввода описания задачи
-    Registration = State()
 
 
 async def new_task(message: types.Message):
@@ -33,7 +31,7 @@ async def create_task(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['habit'] = message.text
 
-    new_habit = user_task(
+    new_habit = UserTask(
         id=message.from_user.id,
         email="email@example.com",  # замените на реальный email
         name=data['habit'],
