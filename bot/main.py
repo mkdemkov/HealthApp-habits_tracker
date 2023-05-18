@@ -35,7 +35,6 @@ session = Session()
 async def cmd_start(message: types.Message):
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
     buttons = [types.KeyboardButton("Добавить привычку")]
-
     keyboard.add(*buttons)
     await message.answer("Вас приветствует HealthAppTrackerBot! Введите email для регистрации", reply_markup=keyboard)
 
