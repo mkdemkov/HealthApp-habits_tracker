@@ -13,6 +13,7 @@ from bot.ent.user_task import User_task
 class Form(StatesGroup):
     task = State()  # состояние для ожидания ввода привычки
     description = State()
+    deadline = State()
 
 
 async def new_task(message: types.Message):
@@ -35,16 +36,14 @@ async def create_task(message: types.Message, state: FSMContext):
         return
 
     async with state.proxy() as data:
-        data['description'] = message.text
-
-    new_task = User_task(
-        id=message.from_user.id,
-        email=user.email,
-        name=data['task'],
-        desc=data['description'],  # We are using the description entered by the user
-        deadline=(2020, 11, 14),
-        priority=1
-    )
+        new_task = User_task(
+            id=message.from_user.id,
+            email=user.email,
+            name=data['task'],
+            desc=data['description'],
+            deadline=data['deadline'],  # use the deadline entered by the user
+            priority=1
+        )
     session.add(new_task)
     session.commit()
 
@@ -54,6 +53,28 @@ async def create_task(message: types.Message, state: FSMContext):
 
 async def add_desc(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
-        data['task'] = message.text  # Here we are saving the description
+        data['description'] = message.text  # Save the description
+    await message.answer("Введите дедлайн задачи в формате: год месяц день (например, '2023 5 18').")
+    await Form.deadline.set()  # Go to the deadline state
+
+
+async def add_deadline(message: types.Message, state: FSMContext):
+    # parse the deadline entered by the user
+    try:
+        deadline = tuple(map(int, message.text.split()))  # Assuming the input is like "2022 5 18"
+    except ValueError:
+        await message.answer("Введите дедлайн в правильном формате: год месяц день (например, '2022 5 18').")
+        return
+
+    # Save deadline in the state
+    await state.update_data(deadline=deadline)
+
+    await message.answer("Дедлайн установлен.")
+    await Form.deadline.set()  # Go to the next state
+
+
+async def add_task_name(message: types.Message, state: FSMContext):
+    async with state.proxy() as data:
+        data['task'] = message.text  # Save the task name
     await message.answer("Введите описание задачи.")
-    await Form.description.set()
+    await Form.description.set()  # Go to the description state
