@@ -7,7 +7,7 @@ from sqlalchemy.orm import sessionmaker
 from bot.functions.keyboards import reg_keyboard
 from bot.functions.reg.registration import cmd_register, process_email, UserState
 from functions.dec.dec import dp
-from functions.task.add_new_task import new_task, create_task, Form
+from functions.task.add_new_task import new_task, create_task, Form, add_desc
 
 
 engine = create_engine(os.getenv("path_to_database"))
@@ -29,9 +29,8 @@ def add_new_task(message: types.Message):
     return new_task(message)
 
 
-@dp.message_handler(state=Form.task)
-def process_task(message: types.Message, state: FSMContext):
-    return create_task(message, state)
+dp.register_message_handler(add_desc, state=Form.task)
+dp.register_message_handler(create_task, state=Form.description)
 
 
 dp.register_message_handler(cmd_register, lambda message: message.text.lower() == 'зарегистрироваться')

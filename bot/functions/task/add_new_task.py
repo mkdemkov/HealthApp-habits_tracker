@@ -1,34 +1,18 @@
-<<<<<<< HEAD
 import os
 
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
-=======
-from aiogram import Bot, types
-from aiogram.dispatcher import Dispatcher
-from aiogram.dispatcher.filters.state import StatesGroup
-from aiogram.utils import executor
-from aiogram import Bot, types
-from aiogram.dispatcher import Dispatcher, FSMContext
-from aiogram.dispatcher.filters import Command, Text
-from aiogram.dispatcher.filters.state import State, StatesGroup
-from aiogram.contrib.fsm_storage.memory import MemoryStorage
-from flask import session
-from bot.ent.user_task import User_task
-from bot.ent.user import User
-
-from dotenv import load_dotenv
->>>>>>> cb829555395ef142c8cd404359eb759ed36fee13
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-import os
 
+from bot.ent.user import User
 from bot.ent.user_task import User_task
 
 
 class Form(StatesGroup):
     task = State()  # состояние для ожидания ввода привычки
+    description = State()
 
 
 async def new_task(message: types.Message):
@@ -37,7 +21,7 @@ async def new_task(message: types.Message):
 
 
 async def create_task(message: types.Message, state: FSMContext):
-    engine = create_engine(os.getenv("path_to_database"))  # замените на вашу строку подключения
+    engine = create_engine(os.getenv("path_to_database"))
     Session = sessionmaker(bind=engine)
     session = Session()
 
@@ -51,19 +35,25 @@ async def create_task(message: types.Message, state: FSMContext):
         return
 
     async with state.proxy() as data:
-        data['habit'] = message.text
+        data['description'] = message.text
 
     new_task = User_task(
         id=message.from_user.id,
         email=user.email,
-        name=data['habit'],
-        desc="Описание задачи",  # замените на реальное описание
+        name=data['task'],
+        desc=data['description'],  # We are using the description entered by the user
         deadline=(2020, 11, 14),
         priority=1
     )
     session.add(new_task)
     session.commit()
 
-    await message.answer(f"Задача '{data['habit']}' была успешно добавлена!")
+    await message.answer(f"Задача '{data['task']}' была успешно добавлена!")
     await state.finish()
 
+
+async def add_desc(message: types.Message, state: FSMContext):
+    async with state.proxy() as data:
+        data['task'] = message.text  # Here we are saving the description
+    await message.answer("Введите описание задачи.")
+    await Form.description.set()
