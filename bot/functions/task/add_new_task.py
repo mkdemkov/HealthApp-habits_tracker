@@ -37,14 +37,14 @@ async def create_task(message: types.Message, state: FSMContext):
         return
     async with state.proxy() as data:
         deadline_str = data['deadline']
-        deadline = datetime.strptime(deadline_str, "%Y-%m-%d") # Convert to datetime object
+        deadline = datetime.strptime(deadline_str, "%Y-%m-%d")
         new_task = User_task(
             id=message.from_user.id,
             email=user.email,
             name=data['task'],
             desc=data['description'],
             deadline=deadline,
-            priority=int(message.text)  # Save priority
+            priority=int(message.text)
         )
         session.add(new_task)
         session.commit()
