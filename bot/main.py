@@ -27,7 +27,7 @@ def add_new_task(message: types.Message):
     return new_task(message)
 
 
-@dp.message_handler(state=Form.habit)
+@dp.message_handler(state=Form.task)
 def process_task(message: types.Message, state: FSMContext):
     return create_task(message, state)
 

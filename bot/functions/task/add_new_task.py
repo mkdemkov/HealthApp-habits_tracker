@@ -18,12 +18,13 @@ import os
 
 
 class Form(StatesGroup):
-    habit = State()  # состояние для ожидания ввода привычки
+    task = State()  # состояние для ожидания ввода привычки
+    description = State()  # состояние для ожидания ввода описания задачи
 
 
 async def new_task(message: types.Message):
     await message.answer("Пожалуйста, введите название привычки.")
-    await Form.habit.set()
+    await Form.task.set()
 
 
 async def create_task(message: types.Message, state: FSMContext):
@@ -41,12 +42,12 @@ async def create_task(message: types.Message, state: FSMContext):
         return
 
     async with state.proxy() as data:
-        data['habit'] = message.text
+        data['task'] = message.text
 
     new_task = User_task(
         id=message.from_user.id,
         email=user.email,
-        name=data['habit'],
+        name=data['task'],
         desc="Описание задачи",  # замените на реальное описание
         deadline=(2020, 11, 14),
         priority=1
