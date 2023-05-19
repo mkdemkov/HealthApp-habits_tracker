@@ -11,7 +11,7 @@ from typing import Optional
 from datetime import datetime
 
 
-class UserTask(SQLModel, table=True):
+class User_task(SQLModel, table=True):
     id: Optional[int] = Field(primary_key=True)
     email: str
     name: str
