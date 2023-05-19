@@ -1,11 +1,9 @@
 import os
-
 from aiogram import executor
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-
 from bot.functions.keyboards import reg_keyboard
 from bot.functions.reg.registration import cmd_register, process_email, UserState
 from functions.dec.dec import dp

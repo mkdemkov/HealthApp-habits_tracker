@@ -1,11 +1,9 @@
 import os
-
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-
 from bot.ent.user import User
 from bot.functions.dec.dec import dp
 from bot.functions.keyboards import add_task_keyboard
