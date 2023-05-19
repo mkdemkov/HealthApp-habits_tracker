@@ -1,6 +1,7 @@
 body {
     background-color: #4869D6;
     margin-left: 50px;
+    font-family: Comic Sans MS, Comic Sans, cursive;
 }
 
 #add-task-section {
@@ -14,6 +15,7 @@ body {
 
 .form-group {
     margin-bottom: 10px;
+    color: black;
 }
 
 label {
@@ -79,4 +81,32 @@ button:hover {
 
 .required-field {
     border-color: red;
+}
+
+#add-habit-section {
+    margin-bottom: 20px;
+}
+
+#habit-form {
+    display: none;
+    margin-top: 10px;
+}
+
+#habit-form .form-group {
+    margin-bottom: 10px;
+}
+
+#habit-form label {
+    display: block;
+    font-weight: bold;
+}
+
+#habit-form input[type="text"],
+#habit-form input[type="number"] {
+    width: 100%;
+    max-width: 300px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
 }
