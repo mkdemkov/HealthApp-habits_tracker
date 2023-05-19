@@ -1,27 +1,21 @@
-from aiogram import Bot, types
-from aiogram.dispatcher import Dispatcher
-from aiogram.dispatcher.filters.state import StatesGroup
-from aiogram.utils import executor
-from aiogram import Bot, types
-from aiogram.dispatcher import Dispatcher, FSMContext
-from aiogram.dispatcher.filters import Command, Text
-from aiogram.dispatcher.filters.state import State, StatesGroup
-from aiogram.contrib.fsm_storage.memory import MemoryStorage
-from flask import session
-from bot.ent.usertask import UserTask
-from dotenv import load_dotenv
 import os
+
+from aiogram import types
+from aiogram.dispatcher import FSMContext
+from aiogram.dispatcher.filters.state import State, StatesGroup
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
+from bot.ent.user_task import User_task
+
 
 class Form(StatesGroup):
-    habit = State()  # состояние для ожидания ввода привычки
+    task = State()  # состояние для ожидания ввода привычки
 
 
 async def new_task(message: types.Message):
     await message.answer("Пожалуйста, введите название привычки.")
-    await Form.habit.set()
+    await Form.task.set()
 
 
 async def create_task(message: types.Message, state: FSMContext):
@@ -31,7 +25,7 @@ async def create_task(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['habit'] = message.text
 
-    new_habit = UserTask(
+    new_task = User_task(
         id=message.from_user.id,
         email="email@example.com",  # замените на реальный email
         name=data['habit'],
@@ -39,7 +33,7 @@ async def create_task(message: types.Message, state: FSMContext):
         deadline=2020 - 11 - 14,
         priority=1
     )
-    session.add(new_habit)
+    session.add(new_task)
     session.commit()
 
     await message.answer(f"Задача '{data['habit']}' была успешно добавлена!")

@@ -11,6 +11,7 @@ from bot.functions.reg.registration import cmd_register, process_email, UserStat
 from functions.dec.dec import dp
 from functions.task.add_new_task import new_task, create_task, Form
 
+
 engine = create_engine(os.getenv("path_to_database"))
 Session = sessionmaker(bind=engine)
 session = Session()
@@ -26,10 +27,11 @@ async def cmd_start(message: types.Message):
 
 @dp.message_handler(lambda message: message.text.lower() == 'добавить привычку')
 def add_new_task(message: types.Message):
+
     return new_task(message)
 
 
-@dp.message_handler(state=Form.habit)
+@dp.message_handler(state=Form.task)
 def process_task(message: types.Message, state: FSMContext):
     return create_task(message, state)
 
