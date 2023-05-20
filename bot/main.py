@@ -7,6 +7,7 @@ from sqlalchemy.orm import sessionmaker
 
 from bot.functions.keyboards import reg_keyboard
 from bot.functions.reg.registration import cmd_register, process_email, UserState
+from bot.functions.task.delete_task import cmd_delete_task, process_task_to_delete, DeleteForm
 from functions.dec.dec import dp
 from functions.task.add_new_task import new_task, create_task, Form, add_desc, add_deadline, add_priority
 from bot.ent.user import User
@@ -69,8 +70,8 @@ async def button_tasks(message: types.Message):
 
     # Формируем сообщение со списком задач
     tasks_text = "\n".join(
-        f"{task.name}, дедлайн: {task.deadline.strftime('%Y-%m-%d')}, приоритет: {task.priority}"
-        for task in tasks
+        f"{idx+1}) {task.name}, дедлайн: {task.deadline.strftime('%Y-%m-%d')}, приоритет: {task.priority}"
+        for idx, task in enumerate(tasks)
     )
 
     await message.answer(f"Ваши задачи:\n{tasks_text}")
@@ -78,8 +79,10 @@ async def button_tasks(message: types.Message):
 
 dp.register_message_handler(add_desc, state=Form.task)
 dp.register_message_handler(add_deadline, state=Form.description)
-dp.register_message_handler(add_priority, state=Form.deadline)  # Register handler for priority
-dp.register_message_handler(create_task, state=Form.priority)  # Create task after priority input
+dp.register_message_handler(add_priority, state=Form.deadline)
+dp.register_message_handler(create_task, state=Form.priority)
+dp.register_message_handler(cmd_delete_task, lambda message: message.text.lower() == 'удалить задачу')
+dp.register_message_handler(process_task_to_delete, state=DeleteForm.task_to_delete)
 
 dp.register_message_handler(cmd_register, lambda message: message.text.lower() == 'зарегистрироваться')
 if __name__ == '__main__':

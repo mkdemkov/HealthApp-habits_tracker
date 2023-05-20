@@ -11,4 +11,4 @@ class User_task(SQLModel, table=True):
     desc: str
     deadline: datetime
     priority: int
-    count: Optional[int] = Field(primary_key=True,index=True)
+    count: Optional[int] = Field(primary_key=True, index=True)
