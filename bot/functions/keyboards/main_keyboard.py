@@ -5,6 +5,6 @@ buttons = [
     types.KeyboardButton("Добавить задачу"),
     types.KeyboardButton("Список задач"),
     types.KeyboardButton("Удалить задачу"),
-    types.KeyboardButton("Добавить задачу")
+    types.KeyboardButton("Добавить привычку")
 ]
 keyboard.add(*buttons)
