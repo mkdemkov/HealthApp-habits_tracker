@@ -37,6 +37,9 @@ async def cmd_delete_task(message: types.Message):
 
 
 async def process_task_to_delete(message: types.Message, state: FSMContext):
+    if not message.text.isdigit():
+        await message.answer("Пожалуйста, введите числовой номер задачи.")
+        return
     engine = create_engine(os.getenv("path_to_database"))
     session_maker = sessionmaker(bind=engine)
     session = session_maker()

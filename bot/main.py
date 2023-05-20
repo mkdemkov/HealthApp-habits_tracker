@@ -85,5 +85,6 @@ dp.register_message_handler(cmd_delete_task, lambda message: message.text.lower(
 dp.register_message_handler(process_task_to_delete, state=DeleteForm.task_to_delete)
 
 dp.register_message_handler(cmd_register, lambda message: message.text.lower() == 'зарегистрироваться')
+
 if __name__ == '__main__':
     executor.start_polling(dp)
