@@ -9,4 +9,4 @@ class UserHabit(SQLModel, table=True):
     email: str
     name: str
     desc: str
-    for_time: datetime
+    for_time: int

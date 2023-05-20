@@ -5,6 +5,7 @@ from aiogram import types
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
+from bot.functions.habit.add_new_habit import new_habit, add_desc_habit, FormHabit, add_deadline_habit, create_habit
 from bot.functions.keyboards import reg_keyboard
 from bot.functions.reg.registration import cmd_register, process_email, UserState
 from bot.functions.task.delete_task import cmd_delete_task, process_task_to_delete, DeleteForm
@@ -29,6 +30,11 @@ async def cmd_start(message: types.Message):
 @dp.message_handler(lambda message: message.text.lower() == 'добавить задачу')
 def add_new_task(message: types.Message):
     return new_task(message)
+
+
+@dp.message_handler(lambda message: message.text.lower() == 'добавить привычку')
+def add_new_habit(message: types.Message):
+    return new_habit(message)
 
 
 @dp.message_handler(commands='tasks')
@@ -83,6 +89,10 @@ dp.register_message_handler(add_priority, state=Form.deadline)
 dp.register_message_handler(create_task, state=Form.priority)
 dp.register_message_handler(cmd_delete_task, lambda message: message.text.lower() == 'удалить задачу')
 dp.register_message_handler(process_task_to_delete, state=DeleteForm.task_to_delete)
+
+dp.register_message_handler(add_desc_habit, state=FormHabit.habit)
+dp.register_message_handler(add_deadline_habit, state=FormHabit.description)
+dp.register_message_handler(create_habit, state=FormHabit.for_time)
 
 dp.register_message_handler(cmd_register, lambda message: message.text.lower() == 'зарегистрироваться')
 
