@@ -7,7 +7,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 from bot.ent.user import User
-from bot.ent.user_task import User_task
+from bot.ent.user_task import UserTask
 
 
 class DeleteForm(StatesGroup):
@@ -23,7 +23,7 @@ async def cmd_delete_task(message: types.Message):
         await message.answer("Пожалуйста, сначала зарегистрируйте свою электронную почту.")
         return
 
-    tasks = session.query(User_task).filter_by(id=message.from_user.id).all()
+    tasks = session.query(UserTask).filter_by(id=message.from_user.id).all()
     if not tasks:
         await message.answer("У вас пока нет задач.")
         return
@@ -54,7 +54,7 @@ async def process_task_to_delete(message: types.Message, state: FSMContext):
         await state.reset_state()
         return
 
-    tasks = session.query(User_task).filter_by(id=message.from_user.id).all()
+    tasks = session.query(UserTask).filter_by(id=message.from_user.id).all()
     if task_num < 0 or task_num >= len(tasks):
         await message.answer("Неверный номер задачи. Попробуйте еще раз.")
         return
