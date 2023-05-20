@@ -43,7 +43,11 @@ async def process_task_to_delete(message: types.Message, state: FSMContext):
     engine = create_engine(os.getenv("path_to_database"))
     session_maker = sessionmaker(bind=engine)
     session = session_maker()
-    task_num = int(message.text) - 1
+    try:
+        task_num = int(message.text) - 1
+    except ValueError:
+        await message.answer("Неверный номер задачи. Попробуйте еще раз.")
+        return
     user = session.query(User).filter_by(id=message.from_user.id).first()
     if user is None or user.email is None:
         await message.answer("Пожалуйста, сначала зарегистрируйте свою электронную почту.")

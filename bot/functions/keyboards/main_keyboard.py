@@ -4,6 +4,7 @@ keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
 buttons = [
     types.KeyboardButton("Добавить задачу"),
     types.KeyboardButton("Список задач"),
-    types.KeyboardButton("Удалить задачу")
+    types.KeyboardButton("Удалить задачу"),
+    types.KeyboardButton("Добавить задачу")
 ]
 keyboard.add(*buttons)

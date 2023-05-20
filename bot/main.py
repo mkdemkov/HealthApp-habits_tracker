@@ -70,7 +70,7 @@ async def button_tasks(message: types.Message):
 
     # Формируем сообщение со списком задач
     tasks_text = "\n".join(
-        f"{idx+1}) {task.name}, дедлайн: {task.deadline.strftime('%Y-%m-%d')}, приоритет: {task.priority}"
+        f"{idx + 1}) {task.name}, дедлайн: {task.deadline.strftime('%Y-%m-%d')}, приоритет: {task.priority}"
         for idx, task in enumerate(tasks)
     )
 
