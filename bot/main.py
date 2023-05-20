@@ -12,7 +12,7 @@ from bot.functions.task.delete_task import cmd_delete_task, process_task_to_dele
 from functions.dec.dec import dp
 from functions.task.add_new_task import new_task, create_task, Form, add_desc, add_deadline, add_priority
 from bot.ent.user import User
-from bot.ent.user_task import User_task
+from bot.ent.user_task import UserTask
 
 engine = create_engine(os.getenv("path_to_database"))
 Session = sessionmaker(bind=engine)
@@ -46,7 +46,7 @@ async def cmd_tasks(message: types.Message):
         return
 
     # Получаем все задачи этого пользователя
-    tasks = session.query(User_task).filter_by(id=message.from_user.id).all()
+    tasks = session.query(UserTask).filter_by(id=message.from_user.id).all()
     if not tasks:
         await message.answer("У вас пока нет задач.")
         return
@@ -69,7 +69,7 @@ async def button_tasks(message: types.Message):
         return
 
     # Получаем все задачи этого пользователя
-    tasks = session.query(User_task).filter_by(id=message.from_user.id).all()
+    tasks = session.query(UserTask).filter_by(id=message.from_user.id).all()
     if not tasks:
         await message.answer("У вас пока нет задач.")
         return

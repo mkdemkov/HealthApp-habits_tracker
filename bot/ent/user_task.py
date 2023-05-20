@@ -3,7 +3,7 @@ from typing import Optional
 from sqlmodel import SQLModel, Field
 
 
-class User_task(SQLModel, table=True):
+class UserTask(SQLModel, table=True):
     id: Optional[int] = Field()
     email: str
     name: str

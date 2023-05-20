@@ -5,7 +5,7 @@ from aiogram.dispatcher.filters.state import State, StatesGroup
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from bot.ent.user import User
-from bot.ent.user_task import User_task
+from bot.ent.user_task import UserTask
 from datetime import datetime
 
 
@@ -40,7 +40,7 @@ async def create_task(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         deadline_str = data['deadline']
         deadline = datetime.strptime(deadline_str, "%Y-%m-%d")
-        new_task = User_task(
+        new_task = UserTask(
             id=message.from_user.id,
             email=user.email,
             name=data['task'],
