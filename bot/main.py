@@ -1,15 +1,17 @@
 import os
+
 from aiogram import executor
 from aiogram import types
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+
 from bot.functions.keyboards import reg_keyboard
 from bot.functions.reg.registration import cmd_register, process_email, UserState
+from bot.functions.task.delete_task import cmd_delete_task, process_task_to_delete, DeleteForm
 from functions.dec.dec import dp
 from functions.task.add_new_task import new_task, create_task, Form, add_desc, add_deadline, add_priority
 from bot.ent.user import User
 from bot.ent.user_task import User_task
-from functions.task.delete_task import cmd_delete_task, process_task_to_delete, DeleteForm
 
 engine = create_engine(os.getenv("path_to_database"))
 Session = sessionmaker(bind=engine)
@@ -50,9 +52,7 @@ async def cmd_tasks(message: types.Message):
     )
 
     await message.answer(f"Ваши задачи:\n{tasks_text}")
-@dp.message_handler(lambda message: message.text.lower() == 'удалить задачу')
-async def delete_task_handler(message: types.Message):
-    await cmd_delete_task(message)
+
 
 @dp.message_handler(lambda message: message.text.lower() == 'список задач')
 async def button_tasks(message: types.Message):
@@ -70,20 +70,21 @@ async def button_tasks(message: types.Message):
 
     # Формируем сообщение со списком задач
     tasks_text = "\n".join(
-        f"{idx+1}. {task.name}, дедлайн: {task.deadline.strftime('%Y-%m-%d')}, приоритет: {task.priority}"
+        f"{idx+1}) {task.name}, дедлайн: {task.deadline.strftime('%Y-%m-%d')}, приоритет: {task.priority}"
         for idx, task in enumerate(tasks)
     )
 
     await message.answer(f"Ваши задачи:\n{tasks_text}")
 
 
-
 dp.register_message_handler(add_desc, state=Form.task)
 dp.register_message_handler(add_deadline, state=Form.description)
 dp.register_message_handler(add_priority, state=Form.deadline)
 dp.register_message_handler(create_task, state=Form.priority)
-
+dp.register_message_handler(cmd_delete_task, lambda message: message.text.lower() == 'удалить задачу')
 dp.register_message_handler(process_task_to_delete, state=DeleteForm.task_to_delete)
+
+dp.register_message_handler(cmd_register, lambda message: message.text.lower() == 'зарегистрироваться')
 
 if __name__ == '__main__':
     executor.start_polling(dp)

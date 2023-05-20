@@ -8,11 +8,13 @@ from bot.ent.user import User
 from bot.ent.user_task import User_task
 from datetime import datetime
 
+
 class Form(StatesGroup):
     task = State()  # состояние для ожидания ввода привычки
     description = State()
     deadline = State()
     priority = State()
+
 
 async def add_deadline(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
@@ -28,8 +30,8 @@ async def new_task(message: types.Message):
 
 async def create_task(message: types.Message, state: FSMContext):
     engine = create_engine(os.getenv("path_to_database"))
-    Session = sessionmaker(bind=engine)
-    session = Session()
+    session_maker = sessionmaker(bind=engine)
+    session = session_maker()
     user = session.query(User).filter_by(id=message.from_user.id).first()
     if user is None or user.email is None:
         await message.answer("Пожалуйста, сначала зарегистрируйте свою электронную почту.")
@@ -57,6 +59,7 @@ async def add_desc(message: types.Message, state: FSMContext):
         data['task'] = message.text
     await message.answer("Введите описание задачи.")
     await Form.description.set()  # Переходим к состоянию описания задачи
+
 
 async def add_priority(message: types.Message, state: FSMContext):
     async with state.proxy() as data:

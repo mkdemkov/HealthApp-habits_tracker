@@ -1,11 +1,14 @@
 import os
+
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+
 from bot.ent.user import User
 from bot.ent.user_task import User_task
+
 
 class DeleteForm(StatesGroup):
     task_to_delete = State()
@@ -13,8 +16,8 @@ class DeleteForm(StatesGroup):
 
 async def cmd_delete_task(message: types.Message):
     engine = create_engine(os.getenv("path_to_database"))
-    Session = sessionmaker(bind=engine)
-    session = Session()
+    session_maker = sessionmaker(bind=engine)
+    session = session_maker()
     user = session.query(User).filter_by(id=message.from_user.id).first()
     if user is None or user.email is None:
         await message.answer("Пожалуйста, сначала зарегистрируйте свою электронную почту.")
@@ -26,7 +29,7 @@ async def cmd_delete_task(message: types.Message):
         return
 
     tasks_text = "\n".join(
-        f"{idx + 1}. {task.name}, дедлайн: {task.deadline.strftime('%Y-%m-%d')}, приоритет: {task.priority}"
+        f"{idx + 1}) {task.name}, дедлайн: {task.deadline.strftime('%Y-%m-%d')}, приоритет: {task.priority}"
         for idx, task in enumerate(tasks)
     )
     await message.answer(f"Выберите номер задачи для удаления:\n{tasks_text}")
@@ -34,9 +37,12 @@ async def cmd_delete_task(message: types.Message):
 
 
 async def process_task_to_delete(message: types.Message, state: FSMContext):
+    if not message.text.isdigit():
+        await message.answer("Пожалуйста, введите числовой номер задачи.")
+        return
     engine = create_engine(os.getenv("path_to_database"))
-    Session = sessionmaker(bind=engine)
-    session = Session()
+    session_maker = sessionmaker(bind=engine)
+    session = session_maker()
     task_num = int(message.text) - 1
     user = session.query(User).filter_by(id=message.from_user.id).first()
     if user is None or user.email is None:

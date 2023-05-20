@@ -6,7 +6,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from bot.ent.user import User
 from bot.functions.dec.dec import dp
-from bot.functions.keyboards import add_task_keyboard
+from bot.functions.keyboards import main_keyboard
 
 
 class UserState(StatesGroup):
@@ -42,4 +42,4 @@ async def process_email(message: types.Message, state: FSMContext):
         session.commit()
 
         await state.finish()  # заканчиваем работу FSM
-        await message.answer("Вы успешно зарегистрировались!", reply_markup=add_task_keyboard.keyboard)
+        await message.answer("Вы успешно зарегистрировались!", reply_markup=main_keyboard.keyboard)
