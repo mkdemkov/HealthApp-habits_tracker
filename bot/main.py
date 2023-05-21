@@ -9,6 +9,7 @@ from bot.functions.habit.add_new_habit import new_habit, add_desc_habit, FormHab
 from bot.functions.keyboards import reg_keyboard
 from bot.functions.reg.registration import cmd_register, process_email, UserState
 from bot.functions.task.delete_task import cmd_delete_task, process_task_to_delete, DeleteForm
+from bot.functions.habit.delete_habit import cmd_delete_habbit, process_habbit_to_delete ,DeleteHabit
 from functions.dec.dec import dp
 from functions.task.add_new_task import new_task, create_task, Form, add_desc, add_deadline, add_priority
 from bot.ent.user import User
@@ -116,6 +117,8 @@ dp.register_message_handler(process_task_to_delete, state=DeleteForm.task_to_del
 dp.register_message_handler(add_desc_habit, state=FormHabit.habit)
 dp.register_message_handler(add_deadline_habit, state=FormHabit.description)
 dp.register_message_handler(create_habit, state=FormHabit.for_time)
+dp.register_message_handler(cmd_delete_habbit, lambda message: message.text.lower() == 'удалить привычку')
+dp.register_message_handler(process_habbit_to_delete, state=DeleteHabit.habit_to_delete)
 
 dp.register_message_handler(cmd_register, lambda message: message.text.lower() == 'зарегистрироваться')
 
