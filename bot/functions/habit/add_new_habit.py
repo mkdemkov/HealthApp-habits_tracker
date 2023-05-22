@@ -5,7 +5,7 @@ from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from bot.ent.user import User
 from bot.ent.user_habit import UserHabit
@@ -31,13 +31,16 @@ async def create_habit(message: types.Message, state: FSMContext):
         await message.answer("Пожалуйста, сначала зарегистрируйте свою электронную почту.")
         await state.reset_state()
         return
+    # Когда пользователь вводит количество дней
+    days = int(message.text)
+    completion_date = datetime.now() + timedelta(days=days)
     async with state.proxy() as data:
         new_habit = UserHabit(
             id=message.from_user.id,
             email=user.email,
             name=data['habit'],
             desc=data['description'],
-            for_time=int(message.text)
+            for_time=completion_date
         )
         print("s")
         session.add(new_habit)
