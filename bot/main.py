@@ -15,11 +15,8 @@ from functions.dec.dec import dp
 from functions.task.add_new_task import new_task, create_task, Form, add_desc, add_deadline, add_priority
 from bot.ent.user import User
 from bot.ent.user_task import UserTask
-<<<<<<< HEAD
-=======
 from bot.ent.user_habit import UserHabit
 
->>>>>>> 0cd63ccd136ca785c7578b3cd0635875e7a3efd6
 
 engine = create_engine(os.getenv("path_to_database"))
 Session = sessionmaker(bind=engine)
