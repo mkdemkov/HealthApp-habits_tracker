@@ -10,4 +10,4 @@ class UserHabit(SQLModel, table=True):
     name: str
     desc: str
     count: Optional[int] = Field(primary_key=True, index=True)
-    for_time: int
+    for_time: datetime

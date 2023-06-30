@@ -1,5 +1,6 @@
 import os
 
+from datetime import datetime
 from aiogram import executor
 from aiogram import types
 from sqlalchemy import create_engine
@@ -26,7 +27,7 @@ dp.register_message_handler(process_email, state=UserState.enter_email)
 
 @dp.message_handler(commands='start')
 async def cmd_start(message: types.Message):
-    await message.answer("Вас приветствует HealthAppTrackerBot! Введите email для регистрации",
+    await message.answer("Вас приветствует HealthAppTrackerBot! Нажмите зарегистрироваться для того чтобы начать работу",
                          reply_markup=reg_keyboard.keyboard)
 
 
@@ -93,15 +94,14 @@ async def button_habit(message: types.Message):
         await message.answer("Пожалуйста, сначала зарегистрируйте свою электронную почту.")
         return
 
-    # Получаем все задачи этого пользователя
+    # Получаем все привычки этого пользователя
     habit = session.query(UserHabit).filter_by(id=message.from_user.id).all()
     if not habit:
         await message.answer("У вас пока нет привычек.")
         return
-
-    # Формируем сообщение со списком задач
+    # Формируем сообщение со списком привычек
     habit_text = "\n".join(
-        f"{idx + 1}) {habit.name}"
+        f"{idx + 1}) {habit.name}, дней до соблюдения: {'привычка завершена' if (habit.for_time - datetime.now().date()).days <= 0 else (habit.for_time - datetime.now().date()).days}"
         for idx, habit in enumerate(habit)
     )
 
